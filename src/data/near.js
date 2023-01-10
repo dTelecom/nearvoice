@@ -151,8 +151,7 @@ async function _initNear() {
       "is_write_permission_granted",
       "keys",
     ],
-    changeMethods: [
-    ],
+    changeMethods: [],
   });
 
   _near.accountState = (accountId) => accountState(_near, accountId);

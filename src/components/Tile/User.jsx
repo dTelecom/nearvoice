@@ -1,10 +1,9 @@
-import React from 'react';
-import UserTile from './UserTile';
-import UserWrapper from './UserWrapper';
-import UserInfo from './UserInfo';
+import React from "react";
+import UserTile from "./UserTile";
+import UserWrapper from "./UserWrapper";
+import UserInfo from "./UserInfo";
 
 const User = ({ peer, audioMuted }) => {
-
   return (
     <UserTile>
       <UserWrapper level={peer.level}>

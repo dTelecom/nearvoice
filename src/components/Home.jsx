@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Input from './Home/Input';
-import CreateButton from './Home/CreateButton';
-import ConnectButton from './Home/ConnectButton';
-import LogOutButton from './Home/LogOutButton';
-import Avatar from 'boring-avatars';
-import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from "react";
+import Input from "./Home/Input";
+import CreateButton from "./Home/CreateButton";
+import ConnectButton from "./Home/ConnectButton";
+import LogOutButton from "./Home/LogOutButton";
+import Avatar from "boring-avatars";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "@near-wallet-selector/modal-ui/styles.css";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import { NearConfig, useNear } from "../data/near";
@@ -13,22 +13,21 @@ import { useAccount } from "../data/account";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   const joinRoom = async () => {
     if (!near) {
       return;
     }
 
-    let url = 'https://app.dmeet.org/api/room/create';
+    let url = "https://app.dmeet.org/api/room/create";
     let data = {};
     data.name = username;
     data.noPublish = false;
     data.e2ee = false;
     const response = await axios.post(url, data);
-    console.log(response)
 
-    navigate(`/room/${response.data.sid}`, {state: response.data});
+    navigate(`/room/${response.data.sid}`, { state: response.data });
   };
 
   const [signedIn, setSignedIn] = useState(false);
@@ -82,21 +81,26 @@ const Home = () => {
 
   useEffect(() => {
     if (!signedIn) {
-      return
+      return;
     }
     fetchProfile();
   }, [signedIn]);
 
   const fetchProfile = async () => {
     let keys = [`${signedAccountId}/profile`];
-    keys = keys.map((key) => (`${key}/**`));
+    keys = keys.map((key) => `${key}/**`);
     const options = undefined;
     const args = {
       keys,
       options,
     };
 
-    let data = await near.viewCall(NearConfig.contractName, "get", args, undefined);
+    let data = await near.viewCall(
+      NearConfig.contractName,
+      "get",
+      args,
+      undefined
+    );
     if (keys.length === 1) {
       const parts = keys[0].split("/");
       for (let i = 0; i < parts.length; i++) {
@@ -107,29 +111,32 @@ const Home = () => {
         data = data?.[part];
       }
     }
-    setProfile(data)
-  }
+    setProfile(data);
+  };
 
   useEffect(() => {
     if (!profile) {
-      return
+      return;
     }
-    setUsername(profile.name)
-    setNameDisabled(true)
+    setUsername(profile.name);
+    setNameDisabled(true);
   }, [profile]);
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
+    <div className="flex flex-col items-center justify-center h-screen">
       {signedIn ? (
-          <>
-            <Avatar size={120} name={username} />
-            <Input state={{ username, setUsername }} disabled={nameDisabled} />
-            <CreateButton onClick={joinRoom} />
-            <LogOutButton onClick={(e) => logOut(e)} />
-          </>
-        ) : (
-          <ConnectButton onClick={(e) => requestSignIn(e)} />
-        )}
+        <>
+          <Avatar size={120} name={username} />
+          <Input state={{ username, setUsername }} disabled={nameDisabled} />
+          <CreateButton onClick={joinRoom} />
+          <LogOutButton onClick={(e) => logOut(e)} />
+        </>
+      ) : (
+        <ConnectButton
+          onClick={(e) => requestSignIn(e)}
+          disabled={walletModal === null}
+        />
+      )}
     </div>
   );
 };

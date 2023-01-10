@@ -17,10 +17,10 @@
     "axios": "^1.2.2",
     "boring-avatars": "^1.5.8",
     "iconv-lite": "^0.6.3",
+    "js-sdk": "https://github.com/dTelecom/js-sdk",
     "local-storage": "^2.0.0",
     "near-api-js": "^1.1.0",
     "react": "^18.2.0",
-    "js-sdk": "https://github.com/dTelecom/js-sdk",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "4.0.3",
@@ -53,6 +53,7 @@
   "devDependencies": {
     "autoprefixer": "^9",
     "postcss": "^7",
+    "prettier": "^2.8.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "resolutions": {
